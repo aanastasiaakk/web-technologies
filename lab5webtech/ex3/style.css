@@ -1,0 +1,88 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #fecbcb;
+}
+
+h1 {
+    color: #333; 
+    font-size: 24px;
+    text-align: left;
+}
+
+form{
+    background-color: #fff;
+    padding: 20px;
+    width: 1550px;
+    box-shadow: 0 4px 8px rgb(0, 0, 0, 0.1);
+    border-radius: 14px;
+}
+
+input{
+    padding: 10px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #878787;
+    border-radius: 4px;
+    box-sizing: border-box;
+    border-radius: 14px;
+}
+
+input[type=tel],input[type=email],input[type=text],input[type=password],input[type=date]{
+    width: 25%;
+}
+
+input[type=radio],input[type=checkbox]{
+    margin-left:5px;
+}
+
+select{
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+button{
+    border: none;
+    border-radius: 14px;
+    color: white;
+    margin: 4px 2px;
+    width: 30%;
+    height: 30px;
+}
+
+button[type=submit]{
+    background-color: rgb(129, 208, 248);
+}
+
+button[type=submit]:hover{
+    background-color: rgb(180, 229, 255);
+}
+button[type=reset]{
+    background-color: rgb(240, 148, 217);
+}
+
+button[type=reset]:hover{
+    background-color: rgb(254, 206, 206);
+}
+
+textarea{
+    width: 40%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type=radio]{
+    margin: 0.4rem;
+}
+
+legend {
+    background-color: #000;
+    color: #fff;
+    padding: 3px 6px;
+  }
