@@ -1,0 +1,190 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.navigationbar {
+    position: fixed; 
+    top: 0;
+    width: 100%;
+    background-color: #232222;
+    font-weight: 100;
+    padding: 0; 
+    z-index: 1000; 
+}
+
+.navigationbar ul {
+    list-style: none; 
+    text-align: left; 
+    padding: 0; 
+    margin: 0;
+}
+
+.navigationbar ul li {
+    display: inline-block; 
+    position: relative;
+}
+
+.navigationbar ul li:last-child {
+    float: right;
+}
+
+.navigationbar a {
+    display: block;
+    padding: 10px 20px; 
+    color: white; 
+    text-decoration: none;
+}
+
+.navigationbar a:hover {
+    background-color: #575757; 
+}
+
+.navigationbar img {
+    width: 35px; 
+    height: 35px;
+    vertical-align: middle;
+}
+
+.active a {
+    background-color: #b982bb; 
+}
+
+.dropdown {
+    display: none; 
+    position: absolute;
+    background-color: #444; 
+    width: 180px;
+    z-index: 1000;
+}
+
+.navigationbar li:hover .dropdown {
+    display: block;
+}
+
+.dropdown li {
+    width: 100%;
+}
+
+.vertical-nav {
+    position: fixed; 
+    top: 50px;
+    left: 0; 
+    width: 200px; 
+    height: 100%;
+    background-color: #232222; 
+    color: white; 
+    padding-top: 20px; 
+}
+
+.vertical-nav ul {
+    list-style: none;
+    padding: 0; 
+    margin: 0;
+}
+
+.vertical-nav li {
+    position: relative; 
+}
+
+.vertical-nav a {
+    color: white; 
+    text-decoration: none; 
+    display: block; 
+    padding: 10px 20px;
+}
+
+.vertical-nav img {
+    width: 24px; 
+    height: 24px; 
+    margin-right: 10px; 
+    vertical-align: middle; 
+}
+
+.vertical-nav a:hover {
+    background-color: #575757; 
+}
+
+.vertical-nav .dropdown {
+    display: none; 
+    position: absolute; 
+    left: 100%; 
+    top: 0; 
+    background-color: #444;
+    min-width: 160px;
+    z-index: 1000; 
+}
+
+.vertical-nav li:hover .dropdown {
+    display: block; 
+}
+
+.vertical-nav .dropdown li {
+    width: 100%; 
+}
+.nested-dropdown {
+    visibility: hidden;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #555;
+}
+
+.dropdown li:hover .nested-dropdown {
+ visibility: visible; 
+}
+
+
+main {
+    font-size: 40px;
+    margin-left: 220px;
+    margin-top: 80px; 
+    color: rgb(0, 0, 0);
+}
+.sticky-menu {
+    position: sticky;
+    width: 100%;
+    background-color: #232222;
+    padding: 10px 0;
+    z-index: 1000;
+    text-align: center;
+}
+
+.sticky-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block; 
+}
+
+.sticky-menu li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+.sticky-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.sticky-menu a:hover {
+    background-color: #575757;
+}
+
+.sticky-menu img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+

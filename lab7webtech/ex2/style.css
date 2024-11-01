@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+.container {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    width: 450px;
+    height: 500px;
+}
+
+.block {
+    text-align: center;
+    line-height: 100px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    position: absolute; 
+    transition: 1.0s;  
+    cursor: pointer;
+    border:3px solid black;
+}
+
+.block1 {
+    width: 100px;
+    height: 100px;
+    background-color: green;
+    top: 0;
+    left: 0; 
+}
+
+.block2 {
+    width: 200px;
+    height: 100px;
+    background-color: blue;
+    top:0;
+    left: 120px;
+    visibility: hidden; 
+    
+}
+
+.block3 {
+    width: 320px;
+    height: 100px;
+    background-color: purple;
+    top: 120px;
+    left: 0px; 
+    visibility: hidden;
+}
+
+.block1:hover + .block2, .block2:hover {
+    visibility: visible;
+}
+
+.block2:hover + .block3 {
+    visibility: visible;
+}
