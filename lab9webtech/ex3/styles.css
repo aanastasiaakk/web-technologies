@@ -48,3 +48,42 @@ body {
     padding: 20px;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-areas:
+            "header"
+            "nav"
+            "article"
+            "ads"
+            "footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+
+    .nav {
+        text-align: center;
+    }
+
+    .article, .ads, .footer {
+        text-align: left;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        grid-template-areas:
+            "header"
+            "nav"
+            "article"
+            "ads"
+            "footer";
+        gap: 5px;
+    }
+
+    .header, .nav, .article, .ads, .footer {
+        padding: 15px;
+        font-size: 0.9em;
+    }
+}

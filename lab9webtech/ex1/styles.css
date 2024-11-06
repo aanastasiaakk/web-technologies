@@ -46,7 +46,46 @@ html, body {
 .long-img{
     grid-row-start: 2;
     grid-row-end: 4;
-    margin-top:15px;
-    margin-bottom:15px;
+    margin-top:2px;
+    margin-bottom:2px;
 }
 
+@media (max-width: 768px) {
+    .wrapper {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        padding: 10px;
+    }
+
+    .main-img {
+        grid-column: 1 / span 3;
+        grid-row: 1 / span 1;
+    }
+
+    .long-img {
+        grid-column: 1 / span 3;
+        grid-row: 2 / span 1;
+    }
+}
+
+@media (max-width: 576px) {
+    .wrapper {
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+        padding: 5px;
+    }
+
+    .main-img {
+        grid-column: 1 / span 2;
+        grid-row: 1 / span 1;
+    }
+
+    .long-img {
+        grid-column: 1 / span 2;
+        grid-row: 2 / span 1;
+    }
+
+    .image {
+        padding-bottom: 75%; 
+    }
+}
