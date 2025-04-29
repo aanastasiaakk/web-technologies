@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Облік продуктів</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .order-products {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order-products input {
+            margin-bottom: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Облік продуктів</h1>
+
+        <div id="products">
+            <h2>Продукти</h2>
+            <input type="text" id="productName" placeholder="Назва продукту">
+            <input type="number" id="productPrice" placeholder="Ціна">
+            <input type="number" id="productQuantity" placeholder="Кількість">
+            <button onclick="addProduct()">Додати продукт</button>
+            <table id="productsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Назва</th>
+                        <th>Ціна</th>
+                        <th>Кількість</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="orders">
+            <h2>Замовлення</h2>
+            <div class="order-products">
+                <input type="number" id="orderProductId" placeholder="ID продукту">
+                <input type="number" id="orderQuantity" placeholder="Кількість">
+                <button onclick="addOrderProduct()">Додати продукт до замовлення</button>
+            </div>
+            <button onclick="createOrder()">Створити замовлення</button>
+            <table id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>ID замовлення</th>
+                        <th>Продукти</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const products = new Map();
+        const orders = new Set();
+        const productHistory = new WeakMap();
+        const userOrders = new WeakSet();
+        let productIdCounter = 1;
+        let orderIdCounter = 1;
+        let currentOrderProducts = [];
+
+        function addProduct() {
+            const name = document.getElementById("productName").value;
+            const price = parseFloat(document.getElementById("productPrice").value);
+            const quantity = parseInt(document.getElementById("productQuantity").value);
+            const product = { id: productIdCounter++, name, price, quantity };
+            products.set(product.id, product);
+            productHistory.set(product, [{ timestamp: new Date(), ...product }]);
+            renderProducts();
+        }
+
+        function removeProduct(id) {
+            products.delete(id);
+            renderProducts();
+        }
+
+        function updateProduct(id, updatedProduct) {
+            const product = products.get(id);
+            const updated = { ...product, ...updatedProduct };
+            products.set(id, updated);
+            productHistory.set(product, [
+                ...(productHistory.get(product) || []),
+                { timestamp: new Date(), ...updated },
+            ]);
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const productsTable = document.getElementById("productsTable").getElementsByTagName("tbody")[0];
+            productsTable.innerHTML = "";
+            for (const product of products.values()) {
+                const row = productsTable.insertRow();
+                row.insertCell().textContent = product.id;
+                row.insertCell().textContent = product.name;
+                row.insertCell().textContent = product.price;
+                row.insertCell().textContent = product.quantity;
+                const actionsCell = row.insertCell();
+                actionsCell.innerHTML = `<button onclick="removeProduct(${product.id})">Видалити</button>
+                                         <button onclick="updateProduct(${product.id}, { price: prompt('Нова ціна'), quantity: prompt('Нова кількість') })">Оновити</button>`;
+            }
+        }
+
+        function addOrderProduct() {
+            const productId = parseInt(document.getElementById("orderProductId").value);
+            const quantity = parseInt(document.getElementById("orderQuantity").value);
+            currentOrderProducts.push({ id: productId, quantity });
+            alert("Продукт додано до замовлення!");
+        }
+
+        function createOrder() {
+            const order = { id: orderIdCounter++, products: currentOrderProducts };
+            orders.add(order);
+            userOrders.add(order);
+            for (const orderedProduct of order.products) {
+                const product = products.get(orderedProduct.id);
+                if (product) {
+                    product.quantity -= orderedProduct.quantity;
+                    updateProduct(product.id, product);
+                }
+            }
+            currentOrderProducts = [];
+            renderOrders();
+            renderProducts();
+        }
+
+        function renderOrders() {
+            const ordersTable = document.getElementById("ordersTable").getElementsByTagName("tbody")[0];
+            ordersTable.innerHTML = "";
+            for (const order of orders) {
+                const row = ordersTable.insertRow();
+                row.insertCell().textContent = order.id;
+                row.insertCell().textContent = JSON.stringify(order.products);
+            }
+        }
+    </script>
+</body>
+</html>

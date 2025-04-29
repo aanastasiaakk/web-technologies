@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Світлофор</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .traffic-light {
+            width: 100px;
+            height: 300px;
+            margin: 0 auto;
+            background-color: #333;
+            border-radius: 10px;
+            padding: 10px;
+            position: relative;
+        }
+        .light {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 10px auto;
+            background-color: #333;
+            transition: background-color 1s;
+        }
+        #red {
+            background-color: red;
+        }
+        #yellow {
+            background-color: yellow;
+        }
+        #green {
+            background-color: green;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Світлофор</h1>
+    <div class="traffic-light">
+        <div id="red" class="light"></div>
+        <div id="yellow" class="light"></div>
+        <div id="green" class="light"></div>
+    </div>
+    <p id="message">Поточний стан: червоний</p>
+    <button id="nextStateBtn">Перемкнути вручну</button>
+
+    <script>
+        let redDuration = parseInt(prompt("Введіть тривалість червоного світла в секундах:", 5));
+        let yellowDuration = parseInt(prompt("Введіть тривалість жовтого світла в секундах:", 3));
+        let greenDuration = parseInt(prompt("Введіть тривалість зеленого світла в секундах:", 7));
+
+        const redLight = document.getElementById("red");
+        const yellowLight = document.getElementById("yellow");
+        const greenLight = document.getElementById("green");
+        const message = document.getElementById("message");
+        const nextStateBtn = document.getElementById("nextStateBtn");
+
+        let currentState = "red";
+        let lightInterval;
+        let blinkCount = 0;
+
+        function changeLight() {
+            switch (currentState) {
+                case "red":
+                    redLight.style.backgroundColor = "red";
+                    yellowLight.style.backgroundColor = "#333";
+                    greenLight.style.backgroundColor = "#333";
+                    message.textContent = "Поточний стан: червоний";
+                    lightInterval = setTimeout(() => {
+                        currentState = "yellow";
+                        changeLight();
+                    }, redDuration * 1000); 
+                    break;
+                case "yellow":
+                    redLight.style.backgroundColor = "#333";
+                    yellowLight.style.backgroundColor = "yellow";
+                    greenLight.style.backgroundColor = "#333";
+                    message.textContent = "Поточний стан: жовтий";
+                    lightInterval = setTimeout(() => {
+                        currentState = "green";
+                        changeLight();
+                    }, yellowDuration * 1000); 
+                    break;
+                case "green":
+                    redLight.style.backgroundColor = "#333";
+                    yellowLight.style.backgroundColor = "#333";
+                    greenLight.style.backgroundColor = "green";
+                    message.textContent = "Поточний стан: зелений";
+                    lightInterval = setTimeout(() => {
+                        currentState = "blinkYellow";
+                        changeLight();
+                    }, greenDuration * 1000); 
+                    break;
+                case "blinkYellow":
+                    yellowLight.style.backgroundColor = yellowLight.style.backgroundColor === "yellow" ? "#333" : "yellow";
+                    blinkCount++;
+                    if (blinkCount < 6) {
+                        setTimeout(changeLight, 500);
+                    } else {
+                        currentState = "red"; 
+                        blinkCount = 0;
+                        changeLight();
+                    }
+                    break;
+            }
+        }
+
+        nextStateBtn.addEventListener("click", () => {
+            clearTimeout(lightInterval); 
+            switch (currentState) {
+                case "red":
+                    currentState = "yellow";
+                    break;
+                case "yellow":
+                    currentState = "green";
+                    break;
+                case "green":
+                    currentState = "blinkYellow";
+                    break;
+                case "blinkYellow":
+                    currentState = "red";
+                    break;
+            }
+            changeLight(); 
+        });
+
+        changeLight();
+    </script>
+</body>
+</html>
+
+

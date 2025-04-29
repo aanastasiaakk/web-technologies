@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 3</title>
+</head>
+<body>
+
+    <script>function getGradeText(grade) {
+        if (grade < 1 || grade > 100) 
+            return "Невірна оцінка";
+        else if (grade >= 90) return "Відмінно";
+        else if (grade >= 75) return "Добре";
+        else if (grade >= 60) return "Задовільно";
+        else return "Незадовільно";
+    }
+    
+    function getGradeTextTernary(grade) {
+        return (grade < 1 || grade > 100) ? "Невірна оцінка" :
+               grade >= 90 ? "Відмінно" :
+               grade >= 75 ? "Добре" :
+               grade >= 60 ? "Задовільно" :
+                             "Незадовільно";
+    }
+    
+        function getSeason(month) {
+            if (month >= 3 && month <= 5) return "Spring";
+            else if (month >= 6 && month <= 8) return "Summer";
+            else if (month >= 9 && month <= 11) return "Autumn";
+            else if (month === 12 || month === 1 || month === 2) return "Winter";
+            else return "There's no month like this";
+        }
+
+        function getSeasonTernary(month) {
+            return (month >= 3 && month <= 5) ? "Spring" :
+                   (month >= 6 && month <= 8) ? "Summer" :
+                   (month >= 9 && month <= 11) ? "Autumn" :
+                   (month === 12 || month === 1 || month === 2) ? "Winter" :
+                  "There's no month like this";
+        }
+
+        console.log(getGradeText(85));      
+        console.log(getGradeText(41));  
+        console.log(getGradeTextTernary(63));   
+        console.log(getSeason(10));  
+        console.log(getSeason(1));            
+        console.log(getSeasonTernary(9));    
+        console.log(getSeasonTernary(13));    
+    </script>
+</body>
+</html>

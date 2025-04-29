@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дата та час</title>
+    <style>
+        body { 
+            font-family: oswald;
+            text-align: center; 
+            background-color: lightpink;
+        }
+        .clock {
+            font-size: 5em;
+            margin: 20px; 
+        }
+        .timer, .calendar { 
+            margin: 20px; 
+        }
+        table { 
+            width: 300px; 
+            margin: 0 auto; 
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid black; 
+            text-align: center; 
+            background-color: lightblue;
+            cursor: pointer;
+        }
+        th { 
+            background-color: #f0f0f0; 
+        }
+        .calendar-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .calendar-controls button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Цифровий годинник</h1>
+    <div class="clock" id="clock"></div>
+    
+    <h1>Таймер зворотного відліку</h1>
+    <input type="datetime-local" id="countdownInput">
+    <button onclick="startCountdown()">Запустити</button>
+    <div class="timer" id="timer"></div>
+    
+    <h1>Календар</h1>
+    <div class="calendar-controls">
+        <button onclick="changeMonth(-1)">&#8249;</button>
+        <input type="month" id="monthPicker" onchange="updateCalendar()">
+        <button onclick="changeMonth(1)">&#8250;</button>
+    </div>
+    <div class="calendar" id="calendar"></div>
+    
+    <h1>Час до дня народження</h1>
+    <div id="birthdayCountdown"></div>
+    
+    <script>
+        let selectedBirthday = null;
+
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+        
+        function startCountdown() {
+            const endTime = new Date(document.getElementById('countdownInput').value);
+            function updateTimer() {
+                const now = new Date();
+                const diff = endTime - now;
+                if (diff <= 0) {
+                    document.getElementById('timer').innerText = "Час вийшов!";
+                    clearInterval(interval);
+                    return;
+                }
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                document.getElementById('timer').innerText = `${hours}г ${minutes}хв ${seconds}с`;
+            }
+            updateTimer();
+            const interval = setInterval(updateTimer, 1000);
+        }
+        
+        function updateCalendar() {
+            const monthPicker = document.getElementById("monthPicker");
+            const calendarDiv = document.getElementById("calendar");
+            const [year, month] = monthPicker.value.split("-").map(Number);
+            const firstDay = new Date(year, month - 1, 1).getDay();
+            const daysInMonth = new Date(year, month, 0).getDate();
+            
+            let calendarHTML = "<table><tr><th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th><th>Сб</th><th>Нд</th></tr><tr>";
+            let dayOfWeek = (firstDay === 0) ? 6 : firstDay - 1;
+            for (let i = 0; i < dayOfWeek; i++) {
+                calendarHTML += "<td></td>";
+            }
+            for (let day = 1; day <= daysInMonth; day++) {
+                if (dayOfWeek === 7) {
+                    calendarHTML += "</tr><tr>";
+                    dayOfWeek = 0;
+                }
+                calendarHTML += `<td onclick="selectBirthday(${year}, ${month}, ${day})">${day}</td>`;
+                dayOfWeek++;
+            }
+            while (dayOfWeek < 7) {
+                calendarHTML += "<td></td>";
+                dayOfWeek++;
+            }
+            calendarHTML += "</tr></table>";
+            calendarDiv.innerHTML = calendarHTML;
+        }
+        
+        function selectBirthday(year, month, day) {
+            selectedBirthday = new Date(year, month - 1, day);
+            calculateBirthdayCountdown();
+            setInterval(calculateBirthdayCountdown, 1000);
+        }
+
+        function calculateBirthdayCountdown() {
+            if (!selectedBirthday) return;
+            
+            const now = new Date();
+            let nextBirthday = new Date(selectedBirthday);
+            nextBirthday.setFullYear(now.getFullYear());
+            
+            if (nextBirthday < now) {
+                nextBirthday.setFullYear(now.getFullYear() + 1);
+            }
+            
+            const diff = nextBirthday - now;
+            const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.44));
+            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById("birthdayCountdown").innerText = 
+                `${months} міс. ${days} дн. ${hours}г ${minutes}хв ${seconds}с`;
+        }
+
+        function changeMonth(delta) {
+            const monthPicker = document.getElementById("monthPicker");
+            let [year, month] = monthPicker.value.split("-").map(Number);
+            month += delta;
+            if (month < 1) {
+                year--;
+                month = 12;
+            } else if (month > 12) {
+                year++;
+                month = 1;
+            }
+            monthPicker.value = `${year}-${String(month).padStart(2, '0')}`;
+            updateCalendar();
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const today = new Date();
+            document.getElementById("monthPicker").value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+            updateCalendar();
+        });
+    </script>
+</body>
+</html>

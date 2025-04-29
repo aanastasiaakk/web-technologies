@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лампочка</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .lamp-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        .lamp {
+            width: 80px;
+            height: 120px;
+            border-radius: 60% 60% 30% 30%;
+            position: relative;
+            background-color: transparent;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            border: 1px solid gray;
+        }
+        .lamp-base {
+            width: 40px;
+            height: 25px;
+            background-color: rgb(69, 69, 69);
+            position: relative;
+            top: -2px;
+            border-radius: 0% 0% 20% 20%;
+        }
+        .lamp-intern {
+            width: 7px;
+            height: 70px;
+            background-color: rgb(69, 69, 69);
+            position: relative;
+            bottom: 85px;
+            border-radius: 10% 10% 0 0;
+        }
+        
+        .lamp.regular.on {
+            box-shadow: 0px 0px 40px rgba(255, 255, 0, 0.8); 
+            border-color: yellow;
+        }
+
+        .lamp.eco.on {
+            box-shadow: 0px 0px 40px green;
+            border-color:green;
+        }
+
+        .lamp.led.on {
+            box-shadow: 0px 0px 40px blue;
+            border-color:green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Контроль лампочки</h1>
+    <select id="lampType">
+        <option value="regular">Звичайна</option>
+        <option value="eco">Енергозберігаюча</option>
+        <option value="led">Світлодіодна</option>
+    </select>
+    <button id="toggleLamp">Включити</button>
+    <button id="setBrightness">Змінити яскравість</button>
+    <div class="lamp-container">
+        <div class="lamp" id="lamp"></div>
+        <div class="lamp-base"></div>
+        <div class="lamp-intern"></div>
+    </div>
+    
+    <script>
+        const lamp = document.getElementById('lamp');
+        const toggleButton = document.getElementById('toggleLamp');
+        const setBrightnessButton = document.getElementById('setBrightness');
+        const lampType = document.getElementById('lampType');
+        let isOn = false;
+        let inactivityTimer;
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                lamp.classList.remove('on');
+                lamp.style.backgroundColor = 'transparent';
+                isOn = false;
+                toggleButton.textContent = 'Включити';
+            }, 5000);
+        }
+
+        document.addEventListener('mousemove', resetInactivityTimer);
+        document.addEventListener('keydown', resetInactivityTimer);
+
+        toggleButton.addEventListener('click', () => {
+            isOn = !isOn;
+            if (isOn) {
+                lamp.classList.add('on');
+                const selectedType = lampType.value;
+
+                lamp.classList.remove('regular', 'eco', 'led');
+
+                if (selectedType === 'eco') {
+                    lamp.classList.add('eco');
+                    lamp.style.backgroundColor = 'green';
+                } else if (selectedType === 'led') {
+                    lamp.classList.add('led');
+                    lamp.style.backgroundColor = 'blue';
+                } else {
+                    lamp.classList.add('regular');
+                    lamp.style.backgroundColor = 'yellow';
+                }
+            } else {
+                lamp.classList.remove('on', 'eco', 'led', 'regular');
+                lamp.style.backgroundColor = 'transparent';
+            }
+            toggleButton.textContent = isOn ? 'Вимкнути' : 'Включити';
+            resetInactivityTimer();
+        });
+
+        setBrightnessButton.addEventListener('click', () => {
+            if (!isOn) {
+                alert("Спочатку увімкніть лампочку!");
+                return;
+            }
+
+            if (lampType.value !== 'regular') {
+                let brightness = prompt('Введіть яскравість (0-100)%', '50');
+                if (brightness !== null) {
+                    brightness = parseInt(brightness, 10);
+                    if (!isNaN(brightness) && brightness >= 0 && brightness <= 100) {
+                        lamp.style.opacity = brightness / 100;
+                    } else {
+                        alert('Некоректне значення! Введіть число від 0 до 100.');
+                    }
+                }
+            } else {
+                alert('Для звичайної лампочки зміна яскравості недоступна.');
+            }
+        });
+    </script>
+</body>
+</html>

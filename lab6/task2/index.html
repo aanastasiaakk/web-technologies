@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To do list</h1>
+        <div class="input-area">
+            <input type="text" id="task-input" placeholder="Add something to your list" required>
+            <button id="add-task">Add</button>
+        </div>
+        <div class="sort-area">
+            <label for="sort-by">Sort by:</label>
+            <select id="sort-by">
+                <option value="added">Date</option>
+                <option value="completed">Status</option>
+                <option value="updated">Last update</option>
+            </select>
+        </div>
+        <ul id="task-list">
+            </ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
