@@ -1,0 +1,307 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--background-100);
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  background-color: var(--background-50);
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.46);
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--text-50);
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-50);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.tab-button.active {
+  color: var(--accent-300);
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--accent-300);
+  border-radius: 3px 3px 0 0;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form h2 {
+  margin-bottom: 10px;
+  color: var(--text-50);
+  text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: var(--text-50);
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  padding: 12px 15px;
+  border: 3px solid var(--background-800);
+  background-color: var(--background-100);
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--background-500);
+}
+
+.form-group input.valid {
+  border-color: #0dcd38;
+}
+
+.form-group input.invalid{
+  border-color: var(--warning-400);
+}
+
+.form-group input.invalid + .password-toggle {
+  color: var(--warning-400);
+}
+
+.error-message {
+  color: var(--warning-400);
+  font-size: 12px;
+  min-height: 18px;
+}
+
+.password-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 40px;
+  cursor: pointer;
+  color: var(--text-600);
+}
+
+.radio-group {
+  display: flex;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.remember {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.remember input {
+  width: auto;
+}
+
+.submit-btn {
+  background-color: var(--accent-500);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background-color: var(--accent-400);
+}
+
+.success-message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-800);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.success-message.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.success-message i {
+  font-size: 60px;
+  color: #28a745;
+}
+
+.success-message p {
+  font-size: 24px;
+  font-weight: 600;
+  color: #28a745;
+}
+
+@media (max-width: 480px) {
+  .container {
+      padding: 20px;
+  }
+
+  .tab-button {
+      padding: 8px 15px;
+      font-size: 14px;
+  }
+
+  .form-group input,
+  .form-group select {
+      padding: 10px 12px;
+  }
+
+  .submit-btn {
+      padding: 10px;
+  }
+}
+
+:root {
+  --text-50: #4d2c36;
+  --text-100: #5f3543;
+  --text-200: #703e4f;
+  --text-300: #81465c;
+  --text-400: #924f68;
+  --text-500: #a35875;
+  --text-600: #b46181;
+  --text-700: #c56a8e;
+  --text-800: #d6739a;
+  --text-900: #e77ca7;
+  --text-950: #f886b3;
+
+  --background-50: #fff0f5;
+  --background-100: #ffe6ee;
+  --background-200: #ffccd8;
+  --background-300: #ffb3c2;
+  --background-400: #ff99ac;
+  --background-500: #ff80a5;
+  --background-600: #cc6684;
+  --background-700: #994d63;
+  --background-800: rgba(255, 192, 203, 0.8);
+  --background-900: #662c42;
+  --background-950: #331621;
+
+  --primary-50: #ffe9f0;
+  --primary-100: #ffd3e0;
+  --primary-200: #ffa6c1;
+  --primary-300: #ff7aa3;
+  --primary-400: #ff4d84;
+  --primary-500: #ff2066;
+  --primary-600: #cc1a52;
+  --primary-700: #99133d;
+  --primary-800: #660d29;
+  --primary-900: #330614;
+  --primary-950: #1a030a;
+
+  --secondary-50: #fff0f8;
+  --secondary-100: #ffe0f1;
+  --secondary-200: #ffc1e3;
+  --secondary-300: #ffa3d6;
+  --secondary-400: #ff84c8;
+  --secondary-500: #ff66bb;
+  --secondary-600: #cc5195;
+  --secondary-700: #993c70;
+  --secondary-800: #66264a;
+  --secondary-900: #331325;
+  --secondary-950: #1a0912;
+
+  --accent-50: #ffe6f0;
+  --accent-100: #ffcce0;
+  --accent-200: #ff99c2;
+  --accent-300: #ff66a3;
+  --accent-400: #ff3385;
+  --accent-500: #ff0066;
+  --accent-600: #cc0052;
+  --accent-700: #99003d;
+  --accent-800: #660029;
+  --accent-900: #330014;
+  --accent-950: #1a000a;
+
+  --warning-50: #ffeaea;
+  --warning-100: #ffc5c5;
+  --warning-200: #ff8a8a;
+  --warning-300: #ff4f4f;
+  --warning-400: #ff1414;
+  --warning-500: #e60000;
+  --warning-600: #b80000;
+  --warning-700: #8a0000;
+  --warning-800: #5c0000;
+  --warning-900: #2e0000;
+  --warning-950: #170000;
+}
